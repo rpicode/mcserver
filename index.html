@@ -16,6 +16,7 @@
             font-family: Arial, sans-serif;
             background-color: #f0f0f0;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
@@ -28,6 +29,7 @@
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
         }
 
         .ip-button {
@@ -78,36 +80,86 @@
             display: block;
         }
 
+        /* Shaking Effect */
+        @keyframes shake {
+            0% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-5px);
+            }
+
+            50% {
+                transform: translateX(5px);
+            }
+
+            75% {
+                transform: translateX(-5px);
+            }
+
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        .shake-button:hover {
+            animation: shake 0.5s ease-in-out;
+        }
+
     </style>
 </head>
 
 <body>
     <div class="container">
         <h1>Click to Copy the Server IP</h1>
-        <button class="ip-button" id="copyButton">
+        <button class="ip-button" id="copyButton1">
+            <span class="ip-text">mc.realvanilla.org</span>
+            <div class="copy-notification">IP Copied!</div>
+        </button>
+    </div>
+
+    <div class="container">
+        <h1>Hover to Shake and Copy the Server IP</h1>
+        <button class="ip-button shake-button" id="copyButton2">
             <span class="ip-text">mc.realvanilla.org</span>
             <div class="copy-notification">IP Copied!</div>
         </button>
     </div>
 
     <script>
-        const copyButton = document.getElementById('copyButton');
-        const ipText = copyButton.querySelector('.ip-text');
-        const notification = copyButton.querySelector('.copy-notification');
+        const copyButton1 = document.getElementById('copyButton1');
+        const ipText1 = copyButton1.querySelector('.ip-text');
+        const notification1 = copyButton1.querySelector('.copy-notification');
 
-        copyButton.addEventListener('click', async function () {
+        const copyButton2 = document.getElementById('copyButton2');
+        const ipText2 = copyButton2.querySelector('.ip-text');
+        const notification2 = copyButton2.querySelector('.copy-notification');
+
+        // Button 1 (click to copy)
+        copyButton1.addEventListener('click', async function () {
             try {
-                // Copy the IP to the clipboard
                 await navigator.clipboard.writeText('mc.realvanilla.org');
-
-                // Show the "IP Copied!" notification
-                notification.style.display = 'block';
-                copyButton.classList.add('copy-success');
-
-                // Hide the notification after 2 seconds
+                notification1.style.display = 'block';
+                copyButton1.classList.add('copy-success');
                 setTimeout(() => {
-                    notification.style.display = 'none';
-                    copyButton.classList.remove('copy-success');
+                    notification1.style.display = 'none';
+                    copyButton1.classList.remove('copy-success');
+                }, 2000);
+            } catch (err) {
+                console.error('Failed to copy: ', err);
+            }
+        });
+
+        // Button 2 (click to copy and shake)
+        copyButton2.addEventListener('click', async function () {
+            try {
+                await navigator.clipboard.writeText('mc.realvanilla.org');
+                notification2.style.display = 'block';
+                copyButton2.classList.add('copy-success');
+                setTimeout(() => {
+                    notification2.style.display = 'none';
+                    copyButton2.classList.remove('copy-success');
                 }, 2000);
             } catch (err) {
                 console.error('Failed to copy: ', err);
