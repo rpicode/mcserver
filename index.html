@@ -96,6 +96,24 @@
         .shake-button:hover {
             animation: shake 0.5s infinite;
         }
+
+        @keyframes shake-text {
+            0% { transform: translateX(1px); }
+            10% { transform: translateX(-1px); }
+            20% { transform: translateX(3px); }
+            30% { transform: translateX(-3px); }
+            40% { transform: translateX(2px); }
+            50% { transform: translateX(-2px); }
+            60% { transform: translateX(1px); }
+            70% { transform: translateX(-1px); }
+            80% { transform: translateX(3px); }
+            90% { transform: translateX(-3px); }
+            100% { transform: translateX(1px); }
+        }
+
+        .shake-text:hover {
+            animation: shake-text 0.5s infinite;
+        }
     </style>
 </head>
 
@@ -116,6 +134,14 @@
         </button>
     </div>
 
+    <div class="container">
+        <h1>Copy the Server IP</h1>
+        <button class="ip-button" id="copyButton3">
+            <span class="ip-text shake-text">mc.realvanilla.org</span>
+            <div class="copy-notification">IP Copied!</div>
+        </button>
+    </div>
+
     <script>
         const copyButton1 = document.getElementById('copyButton1');
         const ipText1 = copyButton1.querySelector('.ip-text');
@@ -124,6 +150,10 @@
         const copyButton2 = document.getElementById('copyButton2');
         const ipText2 = copyButton2.querySelector('.ip-text');
         const notification2 = copyButton2.querySelector('.copy-notification');
+
+        const copyButton3 = document.getElementById('copyButton3');
+        const ipText3 = copyButton3.querySelector('.ip-text');
+        const notification3 = copyButton3.querySelector('.copy-notification');
 
         // Button 1 (click to copy)
         copyButton1.addEventListener('click', async function () {
@@ -149,6 +179,21 @@
                 setTimeout(() => {
                     notification2.style.display = 'none';
                     copyButton2.classList.remove('copy-success');
+                }, 2000);
+            } catch (err) {
+                console.error('Failed to copy: ', err);
+            }
+        });
+
+        // Button 3 (click to copy and shake the text)
+        copyButton3.addEventListener('click', async function () {
+            try {
+                await navigator.clipboard.writeText('mc.realvanilla.org');
+                notification3.style.display = 'block';
+                copyButton3.classList.add('copy-success');
+                setTimeout(() => {
+                    notification3.style.display = 'none';
+                    copyButton3.classList.remove('copy-success');
                 }, 2000);
             } catch (err) {
                 console.error('Failed to copy: ', err);
