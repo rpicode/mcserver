@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shaking IP Address Example</title>
+    <style>
+        :root {
+            --brand-color: #32a88b;
+            --complementary: #5cdd95;
+            --background-color: #2a8d75;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .ip-button {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            border: none;
+            background-color: var(--background-color);
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .ip-button:hover {
+            background-color: var(--complementary);
+            transform: scale(1.05);
+        }
+
+        .ip-button span {
+            font-size: 20px;
+        }
+
+        .ip-button .ip-text {
+            transition: all 0.3s ease;
+        }
+
+        .ip-button:hover .ip-text {
+            transform: translateX(5px);
+        }
+
+        .copy-notification {
+            display: none;
+            position: absolute;
+            top: -25px;
+            background-color: #4caf50;
+            color: white;
+            font-size: 12px;
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        .ip-button.copy-success .copy-notification {
+            display: block;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Click to Copy the Server IP</h1>
+        <button class="ip-button" id="copyButton">
+            <span class="ip-text">mc.realvanilla.org</span>
+            <div class="copy-notification">IP Copied!</div>
+        </button>
+    </div>
+
+    <script>
+        const copyButton = document.getElementById('copyButton');
+        const ipText = copyButton.querySelector('.ip-text');
+        const notification = copyButton.querySelector('.copy-notification');
+
+        copyButton.addEventListener('click', async function () {
+            try {
+                // Copy the IP to the clipboard
+                await navigator.clipboard.writeText('mc.realvanilla.org');
+
+                // Show the "IP Copied!" notification
+                notification.style.display = 'block';
+                copyButton.classList.add('copy-success');
+
+                // Hide the notification after 2 seconds
+                setTimeout(() => {
+                    notification.style.display = 'none';
+                    copyButton.classList.remove('copy-success');
+                }, 2000);
+            } catch (err) {
+                console.error('Failed to copy: ', err);
+            }
+        });
+    </script>
+</body>
+
+</html>
